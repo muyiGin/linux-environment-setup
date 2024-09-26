@@ -12,11 +12,16 @@ else
 	echo "Gdb has not installed, Installing..."
 	apt install -y gdb
 fi
-
 cd /
 if !(find / -iname "pwndbg" 2>/dev/null | grep -q .); then
 	echo "Pwndbg has not installed, Installing..."
 	git clone https://github.com/pwndbg/pwndbg
+	cd pwndbg
+	./setup.sh
 fi
-cd pwndbg
-./setup.sh
+
+cp ./.tmux.conf ~/
+cp ./.vimrc ~/
+cp ./.bashrc ~/
+
+echo "Please open tmux/vim/terminal to input source command"
