@@ -61,33 +61,6 @@ map <C-m> :NERDTreeFind<CR>
 " autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 "----------------------------------------------------------------
-" 程序调试
-"----------------------------------------------------------------
-autocmd VimEnter * packadd termdebug
-nnoremap <F2> :call RunTermdebug()<CR>
-nnoremap <F3> :Run<CR>
-nnoremap <F5> :Continue<CR>
-nnoremap <F6> :Finish<CR>
-nnoremap <F7> :Over<CR>
-nnoremap <F8> :Step<CR>
-nnoremap <F9> :Break<CR>
-nnoremap <F10> :Clear<CR>
-nnoremap <F12> :Stop<CR>
-tnoremap <F3> run<CR>
-tnoremap <F5> continue<CR>
-tnoremap <F6> finish<CR>
-tnoremap <F7> step<CR>
-tnoremap <F8> next<CR>
-tnoremap <F9> break<CR>
-tnoremap <F10> clear<CR>
-tnoremap <F12> stop<CR>
-
-function! RunTermdebug()
-    let filename = expand('%:t:r')
-		let e_f=fnameescape(filename)
-    execute "Termdebug ".e_f
-endfunction
-"----------------------------------------------------------------
 " 搜索设置
 "----------------------------------------------------------------
 set hlsearch
