@@ -1,4 +1,5 @@
 #! /bin/bash
+Working_Directory=$(cd "$(dirname "$0")";pwd)
 
 if command -v vim &> /dev/null; then
 	echo "Vim has already installed."
@@ -21,9 +22,8 @@ if !(find / -iname "pwndbg" 2>/dev/null | grep -q .); then
 fi
 echo "Pwndbg has already installed."
 
-Working_Directory=$(pwd)
-cp Working_Directory/.tmux.conf ~/
-cp Working_Directory/.vimrc ~/
-cp Working_Directory/.bashrc ~/
+cp $Working_Directory/.tmux.conf ~/
+cp $Working_Directory/.vimrc ~/
+cp $Working_Directory/.bashrc ~/
 
 echo "Please open tmux/vim/terminal to input source command"
