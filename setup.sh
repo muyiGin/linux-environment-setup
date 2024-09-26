@@ -19,9 +19,11 @@ if !(find / -iname "pwndbg" 2>/dev/null | grep -q .); then
 	cd pwndbg
 	./setup.sh
 fi
+echo "Pwndbg has already installed."
 
-cp ./.tmux.conf ~/
-cp ./.vimrc ~/
-cp ./.bashrc ~/
+Working_Directory=$(pwd)
+cp Working_Directory/.tmux.conf ~/
+cp Working_Directory/.vimrc ~/
+cp Working_Directory/.bashrc ~/
 
 echo "Please open tmux/vim/terminal to input source command"
