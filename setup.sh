@@ -1,46 +1,65 @@
 #! /bin/bash
+####################Global_varibles######################
 Working_Directory=$(cd "$(dirname "$0")";pwd)
 
-####################Check & Download######################
-# Curl
-if command -v curl &> /dev/null; then
-	echo "->Curl has already installed."
-else
-	echo "->Curl has not installed, Installing..."
-	apt install -y curl
-fi
-# Vim
-if command -v vim &> /dev/null; then
-	echo "->Vim has already installed."
-else
-	echo "->Vim has not installed, Installing..."
-	apt install -y vim
-fi
-# Vim-plug
-if !(find ~ -iname "plug.vim" 2>/dev/null | grep -q .); then
-	echo "->Vim-plug has not installed, Installing..."
-	curl -fLo ~/.var/app/io.neovim.nvim/data/nvim/site/autoload/plug.vim --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-echo "->Vim-plug has already installed."
-# Gdb
-if command -v gdb &> /dev/null; then
-	echo "->Gdb has already installed."
-else
-	echo "->Gdb has not installed, Installing..."
-	apt install -y gdb
-fi
-# gdb-Pwndbg
-if !(find ~ -iname "pwndbg" 2>/dev/null | grep -q .); then
-	echo "->Pwndbg has not installed, Installing..."
-	git clone https://github.com/pwndbg/pwndbg
-	cd pwndbg
-	./setup.sh
-fi
-echo "->Pwndbg has already installed."
-####################Copy & Paste######################
-cp $Working_Directory/.tmux.conf ~/
-cp $Working_Directory/.vimrc ~/
-cp $Working_Directory/.bashrc ~/
-
-echo "Please open tmux/vim/terminal to input source command"
+####################Functions######################
+install_if_not_exists() {
+    local name="$1"           # Software's name
+    local install_cmd="$2"    # Install Command
+    local check_file="$3"     # Check some softwares which aren't system command (Optional)
+    if [[ -n "$check_file" ]]; then
+        if ! find ~ -iname "$check_file" 2>/dev/null | grep -q .; then
+            echo "--->$name is installing Now..."
+            eval "$install_cmd"
+        else
+            echo "--->$name has been already installed."
+        fi
+    elif ! command -v "$name" &> /dev/null; then
+        echo "--->$name is installing Now..."
+        eval "$install_cmd"
+    else
+        echo "--->$name has been already installed."
+    fi
+}
+action(){
+	local name="$1"
+	if [["$name"=="patchelf"]];then
+		cd "~/Glibc/patchelf"
+		eval "./bootstrap.sh"
+		eval "./configure"
+		eval "make"
+		eval "sudo make install"
+		eval "make check"
+	elif [["$name"=="glibc-all-in-one"]];then
+		cd "~/Glibc/glibc-all-in-one"
+		eval "./update_list"
+		eval "cat list"
+	elif [["$name"=="pwndbg"]];then
+		cd "~/pwndbg"
+		eval "./setup.sh"
+	fi
+	cd "$Working_Directory"
+}
+git_install(){
+		local name="$1"					# Software's name
+		local install_url="$2"  # Install url
+		local mkdir_addr="$3"		# Making Directory
+    if ! find ~ -iname "$name" 2>/dev/null | grep -q .; then
+				eval "mkdir -p $mkdir_addr"
+				cd "$mkdir_addr"
+				echo "--->$mkdir_addr has been established."
+				eval "git clone $install_url"
+				echo "--->$name is installing Now..."
+				action "$name"
+      else
+        echo "--->$name has been already installed."
+    fi
+}
+####################Commands######################
+install_if_not_exists "curl" "apt install -y curl"
+install_if_not_exists "vim" "apt install -y vim"
+install_if_not_exists "gdb" "apt install -y gdb"
+install_if_not_exists "vim-plug" "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" "plug.vim"
+git_install "patchelf" "https://github.com/NixOS/patchelf" "~/Glibc"
+git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "~/Glibc"
+git_install "pwndbg" "https://github.com/pwndbg/pwndbg" "~"
