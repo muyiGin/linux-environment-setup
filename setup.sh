@@ -23,18 +23,18 @@ install_if_not_exists() {
 }
 action(){
 	local name="$1"
-	if [["$name"=="patchelf"]];then
+	if [[ "$name"=="patchelf" ]];then
 		cd "~/Glibc/patchelf"
 		eval "./bootstrap.sh"
 		eval "./configure"
 		eval "make"
 		eval "sudo make install"
 		eval "make check"
-	elif [["$name"=="glibc-all-in-one"]];then
+	elif [[ "$name"=="glibc-all-in-one" ]];then
 		cd "~/Glibc/glibc-all-in-one"
 		eval "./update_list"
 		eval "cat list"
-	elif [["$name"=="pwndbg"]];then
+	elif [[ "$name"=="pwndbg" ]];then
 		cd "~/pwndbg"
 		eval "./setup.sh"
 	fi
