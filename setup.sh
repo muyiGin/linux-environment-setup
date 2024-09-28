@@ -76,7 +76,7 @@ change_apt_source(){
 	apt update
 }
 ####################Commands######################
-if [[ -n "$1" == "update" ]];then
+if [[ -n "$1" && "$1" == "update" ]];then
 	change_apt_source
 fi
 install_if_not_exists "coreutils" "apt install -y coreutils"
