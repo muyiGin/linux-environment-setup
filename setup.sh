@@ -125,6 +125,8 @@ if [[ -n "$command" ]];then
 		change_docker_proxy
 	elif [[ "$command" == "pwn" ]];then
 		install_pwn_tools
+	elif [[ "$command" == "default" ]];then
+		default_install
 	fi
 else 
 	default_install
