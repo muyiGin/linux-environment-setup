@@ -7,10 +7,15 @@ install_if_not_exists() {
     local name="$1"           # Software's name
     local install_cmd="$2"    # Install Command
     local check_file="$3"     # Check some softwares which aren't system command (Optional)
+		local target_dir="$4"			# For some softwares which needs special address (Optional)
     if [[ -n "$check_file" ]]; then
         if ! find ~ -iname "$check_file" 2>/dev/null | grep -q .; then
+						if [[ -n "$target_dir" ]];then
+							cd_mkdir $target_dir
+						fi
             echo "--->$name is installing Now..."
             eval "$install_cmd"
+						cd "$Working_Directory"
         else
             echo "--->$name has been already installed."
         fi
@@ -23,41 +28,49 @@ install_if_not_exists() {
 }
 action(){
 	local name="$1"
-	if [[ "$name"=="patchelf" ]];then
-		cd "~/Glibc/patchelf"
+	local target_dir="$2"
+	cd_mkdir $target_dir
+	if [[ "$name" == "patchelf" ]];then
+		cd ~/Glibc/patchelf
 		eval "./bootstrap.sh"
 		eval "./configure"
 		eval "make"
 		eval "sudo make install"
 		eval "make check"
-	elif [[ "$name"=="glibc-all-in-one" ]];then
-		cd "~/Glibc/glibc-all-in-one"
+	elif [[ "$name" == "glibc-all-in-one" ]];then
+		cd ~/Glibc/glibc-all-in-one
 		eval "./update_list"
 		eval "cat list"
-	elif [[ "$name"=="pwndbg" ]];then
-		cd "~/pwndbg"
+	elif [[ "$name" == "pwndbg" ]];then
+		cd ~/pwndbg
 		eval "./setup.sh"
 	fi
 	cd "$Working_Directory"
 }
+cd_mkdir(){
+	local dir_name="$1"
+	if [[ ! -d "$dir_name" ]]; then
+		echo "--->$dir_name is establishing now..."
+		mkdir -p "$dir_name"
+		echo "--->$dir_name has been established."
+	fi
+	cd "$dir_name" || { echo "Failed to change directory."; exit 1; }
+}
 git_install(){
 		local name="$1"					# Software's name
 		local install_url="$2"  # Install url
-		local mkdir_addr="$3"		# Making Directory
+		local target_dir="$3"		# Making Directory
     if ! find ~ -iname "$name" 2>/dev/null | grep -q .; then
-				eval "mkdir -p $mkdir_addr"
-				cd "$mkdir_addr"
-				echo "--->$mkdir_addr has been established."
-				eval "git clone $install_url"
 				echo "--->$name is installing Now..."
-				action "$name"
+				eval "git clone $install_url"
+				action "$name" "$target_dir"
       else
         echo "--->$name has been already installed."
     fi
 }
 change_apt_source(){
-	cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
-	cp "$Working_Director/sources.list" "/etc/apt/sources.list"
+	sudo cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
+	sudo cp "$Working_Directory/sources.list" "/etc/apt/sources.list"
 }
 ####################Commands######################
 change_apt_source
