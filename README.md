@@ -13,7 +13,7 @@ cd ~/linux-environment-setup
 ./setup.sh
 ```
 ## Options
-- *****update** : Backup your original APT source and modify it to the Alibaba Cloud mirror source.
+- **update** : Backup your original APT source and modify it to the Alibaba Cloud mirror source.
 - **docker_proxy**: You need to enter your host's proxy port (for example, the default for Clash for Windows is 7890), and then it will modify Docker's http/https/socket network card and port, so you can use the host's VPN (please turn on the host proxy's "Local Area Network Connection" option).
 - **pwn**: Download commonly used pwn software for you.
 ## Software List
