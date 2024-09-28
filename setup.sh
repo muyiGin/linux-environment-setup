@@ -84,28 +84,48 @@ change_docker_proxy(){
 	export ALL_PROXY="socks5://172.17.0.1:$port"
 	export all_proxy="socks5://172.17.0.1:$port"  
 }
+welcome_at_beginning(){
+	echo "Hey, I am muyiGin! You can follow me in Github@muyiGin."
+	echo "Thank you so much to use my project, I am looking forward to your feedbacks and Stars!"
+	echo "###################################################################"
+	echo "You can input following options:"
+	echo "default : I will download some popular softwares for your linux."
+	echo "update : I will backup and change your apt_source_list to aliyun."
+	echo "docker_proxy : You can input your proxy's port(i.e. clash for windows is 7890) to let your docker connect with vpn."
+	echo "pwn : I will download some popular pwn-tools for you."
+}
+install_pwn_tools(){
+	pip3 install pwn
+	git_install "patchelf" "https://github.com/NixOS/patchelf" "$HOME/Glibc"
+	git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "$HOME/Glibc"
+	git_install "pwndbg" "https://github.com/pwndbg/pwndbg" "$HOME"
+}
+default_install(){
+	install_if_not_exists "cat" "apt install -y coreutils"
+	install_if_not_exists "ifconfig" "apt install -y net-tools"
+	install_if_not_exists "python3" "apt install -y python3"
+	install_if_not_exists "pip3" "apt install -y python3-pip"
+	install_if_not_exists "curl" "apt install -y curl"
+	install_if_not_exists "wget" "apt install -y wget"
+	install_if_not_exists "autoconf" "apt install -y autoconf"
+	install_if_not_exists "automake" "apt install -y automake"
+	install_if_not_exists "libtoolize" "apt install -y libtool"
+	install_if_not_exists "vim" "apt install -y vim"
+	install_if_not_exists "gdb" "apt install -y gdb"
+	install_if_not_exists "tmux" "apt install -y tmux"
+	install_if_not_exists "vim-plug" "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" "plug.vim"
+}
 ####################Commands######################
-if [[ -n "$1" ]];then
-	if [[ "$1" == "update" ]];then
+welcome_at_beginning
+read -p "Please input your command : " command
+if [[ -n "$command" ]];then
+	if [[ "$command" == "update" ]];then
 		change_apt_source
-	elif [[ "$1" == "docker_proxy" ]];then
+	elif [[ "$command" == "docker_proxy" ]];then
 		change_docker_proxy
+	elif [[ "$command" == "pwn" ]];then
+		install_pwn_tools
 	fi
+else 
+	default_install
 fi
-install_if_not_exists "cat" "apt install -y coreutils"
-install_if_not_exists "ifconfig" "apt install -y net-tools"
-install_if_not_exists "python3" "apt install -y python3"
-install_if_not_exists "pip3" "apt install -y python3-pip"
-install_if_not_exists "curl" "apt install -y curl"
-install_if_not_exists "wget" "apt install -y wget"
-install_if_not_exists "autoconf" "apt install -y autoconf"
-install_if_not_exists "automake" "apt install -y automake"
-install_if_not_exists "libtoolize" "apt install -y libtool"
-install_if_not_exists "vim" "apt install -y vim"
-install_if_not_exists "gdb" "apt install -y gdb"
-install_if_not_exists "tmux" "apt install -y tmux"
-install_if_not_exists "vim-plug" "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" "plug.vim"
-install_if_not_exists "pwn" "pip3 install pwn" "pwn" "$HOME"
-git_install "patchelf" "https://github.com/NixOS/patchelf" "$HOME/Glibc"
-git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "$HOME/Glibc"
-git_install "pwndbg" "https://github.com/pwndbg/pwndbg" "$HOME"
