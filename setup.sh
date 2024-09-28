@@ -79,12 +79,13 @@ change_apt_source(){
 if [[ -n "$1" && "$1" == "update" ]];then
 	change_apt_source
 fi
-install_if_not_exists "coreutils" "apt install -y coreutils"
+install_if_not_exists "cat" "apt install -y coreutils"
 install_if_not_exists "python3" "apt install -y python3"
 install_if_not_exists "pip3" "apt install -y python3-pip"
 install_if_not_exists "curl" "apt install -y curl"
 install_if_not_exists "vim" "apt install -y vim"
 install_if_not_exists "gdb" "apt install -y gdb"
+install_if_not_exists "tmux" "apt install -y tmux"
 install_if_not_exists "vim-plug" "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" "plug.vim"
 git_install "patchelf" "https://github.com/NixOS/patchelf" "$HOME/Glibc"
 git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "$HOME/Glibc"
