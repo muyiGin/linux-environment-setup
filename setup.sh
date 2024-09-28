@@ -88,14 +88,16 @@ welcome_at_beginning(){
 	echo "Hey, I am muyiGin! You can follow me in Github@muyiGin."
 	echo "Thank you so much to use my project, I am looking forward to your feedbacks and Stars!"
 	echo "###################################################################"
-	echo "You can input following options:"
-	echo "default : I will download some popular softwares for your linux."
+	echo "I will check some necessary softwares for your linux in default."
+	default_install
+	echo "Now, You can input following options:"
 	echo "update : I will backup and change your apt_source_list to aliyun."
 	echo "docker_proxy : You can input your proxy's port(i.e. clash for windows is 7890) to let your docker connect with vpn."
 	echo "pwn : I will download some popular pwn-tools for you."
 }
 install_pwn_tools(){
 	pip3 install pwn
+	pip3 install LibcSearcher
 	git_install "patchelf" "https://github.com/NixOS/patchelf" "$HOME/Glibc"
 	git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "$HOME/Glibc"
 	git_install "pwndbg" "https://github.com/pwndbg/pwndbg" "$HOME"
@@ -125,9 +127,5 @@ if [[ -n "$command" ]];then
 		change_docker_proxy
 	elif [[ "$command" == "pwn" ]];then
 		install_pwn_tools
-	elif [[ "$command" == "default" ]];then
-		default_install
 	fi
-else 
-	default_install
 fi
