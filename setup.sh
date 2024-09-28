@@ -93,6 +93,7 @@ if [[ -n "$1" ]];then
 	fi
 fi
 install_if_not_exists "cat" "apt install -y coreutils"
+install_if_not_exists "ifconfig" "apt install -y net-tools"
 install_if_not_exists "python3" "apt install -y python3"
 install_if_not_exists "pip3" "apt install -y python3-pip"
 install_if_not_exists "curl" "apt install -y curl"
