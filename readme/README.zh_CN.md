@@ -1,3 +1,6 @@
+# Select Language
+- [简体中文](readme/README.zh_CN.md)
+- [English](readme/README.md)
 # 测试通过
 Docker Ubuntu 22.04 官方镜像：下载好后就能直接运行需要libc2.23的 pwn 题，所需软件基本是齐全的。
 
