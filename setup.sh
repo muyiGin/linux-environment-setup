@@ -3,6 +3,16 @@
 Working_Directory=$(cd "$(dirname "$0")";pwd)
 
 ####################Functions######################
+cd_mkdir(){
+	local dir_name="$1"
+	if [[ ! -d "$dir_name" ]]; then
+		echo "--->$dir_name is establishing now..."
+		mkdir -p "$dir_name"
+		echo "--->$dir_name has been established."
+	fi
+	echo "--->Now cd $dir_name"
+	cd "$dir_name" || { echo "Failed to change directory."; exit 1; }
+}
 install_if_not_exists() {
     local name="$1"           # Software's name
     local install_cmd="$2"    # Install Command
@@ -49,16 +59,6 @@ action(){
 	fi
 	cd "$Working_Directory"
 }
-cd_mkdir(){
-	local dir_name="$1"
-	if [[ ! -d "$dir_name" ]]; then
-		echo "--->$dir_name is establishing now..."
-		mkdir -p "$dir_name"
-		echo "--->$dir_name has been established."
-	fi
-	echo "--->Now cd $dir_name"
-	cd "$dir_name" || { echo "Failed to change directory."; exit 1; }
-}
 git_install(){
 		local name="$1"					# Software's name
 		local install_url="$2"  # Install url
@@ -81,6 +81,6 @@ install_if_not_exists "curl" "apt install -y curl"
 install_if_not_exists "vim" "apt install -y vim"
 install_if_not_exists "gdb" "apt install -y gdb"
 install_if_not_exists "vim-plug" "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" "plug.vim"
-git_install "patchelf" "https://github.com/NixOS/patchelf" "~/Glibc"
-git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "~/Glibc"
+git_install "patchelf" "https://github.com/NixOS/patchelf" "$HOME/Glibc"
+git_install "glibc-all-in-one" "https://github.com/matrix1001/glibc-all-in-one" "$HOME/Glibc"
 git_install "pwndbg" "https://github.com/pwndbg/pwndbg" "$HOME"
