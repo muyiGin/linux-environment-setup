@@ -73,10 +73,15 @@ git_install(){
 change_apt_source(){
 	cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
 	cp "$Working_Directory/sources.list" "/etc/apt/sources.list"
+	apt update
 }
 ####################Commands######################
-change_apt_source
+if [[ -n "$1" == "update" ]];then
+	change_apt_source
+fi
+install_if_not_exists "coreutils" "apt install -y coreutils"
 install_if_not_exists "python3" "apt install -y python3"
+install_if_not_exists "pip3" "apt install -y python3-pip"
 install_if_not_exists "curl" "apt install -y curl"
 install_if_not_exists "vim" "apt install -y vim"
 install_if_not_exists "gdb" "apt install -y gdb"
