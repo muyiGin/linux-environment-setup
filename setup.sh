@@ -55,7 +55,12 @@ git_install(){
         echo "--->$name has been already installed."
     fi
 }
+change_apt_source(){
+	cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
+	cp "$Working_Director/sources.list" "/etc/apt/sources.list"
+}
 ####################Commands######################
+change_apt_source
 install_if_not_exists "python3" "apt install -y python3"
 install_if_not_exists "curl" "apt install -y curl"
 install_if_not_exists "vim" "apt install -y vim"
