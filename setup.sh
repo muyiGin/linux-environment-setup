@@ -33,14 +33,14 @@ action(){
 	cd_mkdir $target_dir
 	eval "git clone $install_url"
 	if [[ "$name" == "patchelf" ]];then
-		cd "$target_dir/Glibc/patchelf"
+		cd "$target_dir/patchelf"
 		eval "./bootstrap.sh"
 		eval "./configure"
 		eval "make"
 		eval "make install"
 		eval "make check"
 	elif [[ "$name" == "glibc-all-in-one" ]];then
-		cd "$target_dir/Glibc/glibc-all-in-one"
+		cd "$target_dir/glibc-all-in-one"
 		eval "./update_list"
 		eval "cat list"
 	elif [[ "$name" == "pwndbg" ]];then
@@ -51,10 +51,6 @@ action(){
 }
 cd_mkdir(){
 	local dir_name="$1"
-	if [[ -d "$dir_name" ]]; then
-    echo "--->$dir_name exists. Deleting it..."
-    rm -rf "$dir_name" || { echo "Failed to delete $dir_name."; exit 1; }
-	fi
 	if [[ ! -d "$dir_name" ]]; then
 		echo "--->$dir_name is establishing now..."
 		mkdir -p "$dir_name"
