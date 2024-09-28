@@ -29,7 +29,9 @@ install_if_not_exists() {
 action(){
 	local name="$1"
 	local target_dir="$2"
+	local install_url="$3"
 	cd_mkdir $target_dir
+	eval "git clone $install_url"
 	if [[ "$name" == "patchelf" ]];then
 		cd ~/Glibc/patchelf
 		eval "./bootstrap.sh"
@@ -49,6 +51,10 @@ action(){
 }
 cd_mkdir(){
 	local dir_name="$1"
+	if [[ -d "$dir_name" ]]; then
+    echo "--->$dir_name exists. Deleting it..."
+    rm -rf "$dir_name" || { echo "Failed to delete $dir_name."; exit 1; }
+	fi
 	if [[ ! -d "$dir_name" ]]; then
 		echo "--->$dir_name is establishing now..."
 		mkdir -p "$dir_name"
@@ -61,9 +67,8 @@ git_install(){
 		local install_url="$2"  # Install url
 		local target_dir="$3"		# Making Directory
     if ! find ~ -iname "$name" 2>/dev/null | grep -q .; then
-				echo "--->$name is installing Now..."
-				eval "git clone $install_url"
-				action "$name" "$target_dir"
+			echo "--->$name is installing Now..."
+			action "$name" "$target_dir" "$install_url"
       else
         echo "--->$name has been already installed."
     fi
