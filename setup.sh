@@ -56,6 +56,7 @@ git_install(){
     fi
 }
 ####################Commands######################
+install_if_not_exists "python3" "apt install -y python3"
 install_if_not_exists "curl" "apt install -y curl"
 install_if_not_exists "vim" "apt install -y vim"
 install_if_not_exists "gdb" "apt install -y gdb"
