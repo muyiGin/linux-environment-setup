@@ -75,9 +75,22 @@ change_apt_source(){
 	cp "$Working_Directory/sources.list" "/etc/apt/sources.list"
 	apt update
 }
+change_docker_proxy(){
+	read -p "Please Input yout host's proxy's port: " port
+	export http_proxy="http://172.17.0.1:$port"
+	export HTTP_PROXY="http://172.17.0.1:$port" 
+	export https_proxy="http://172.17.0.1:$port"
+	export HTTPS_PROXY="http://172.17.0.1:$port" 
+	export ALL_PROXY="socks5://172.17.0.1:$port"
+	export all_proxy="socks5://172.17.0.1:$port"  
+}
 ####################Commands######################
-if [[ -n "$1" && "$1" == "update" ]];then
-	change_apt_source
+if [[ -n "$1" ]];then
+	if [[ "$1" == "update" ]];then
+		change_apt_source
+	elif [[ "$1" == "docker_proxy" ]];then
+		change_docker_proxy
+	fi
 fi
 install_if_not_exists "cat" "apt install -y coreutils"
 install_if_not_exists "python3" "apt install -y python3"
