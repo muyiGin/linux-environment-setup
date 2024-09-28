@@ -33,18 +33,18 @@ action(){
 	cd_mkdir $target_dir
 	eval "git clone $install_url"
 	if [[ "$name" == "patchelf" ]];then
-		cd ./Glibc/patchelf
+		cd "$target_dir/Glibc/patchelf"
 		eval "./bootstrap.sh"
 		eval "./configure"
 		eval "make"
 		eval "make install"
 		eval "make check"
 	elif [[ "$name" == "glibc-all-in-one" ]];then
-		cd ./Glibc/glibc-all-in-one
+		cd "$target_dir/Glibc/glibc-all-in-one"
 		eval "./update_list"
 		eval "cat list"
 	elif [[ "$name" == "pwndbg" ]];then
-		cd ./pwndbg
+		cd "$target_dir/pwndbg"
 		eval "./setup.sh"
 	fi
 	cd "$Working_Directory"
