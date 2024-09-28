@@ -90,6 +90,7 @@ welcome_at_beginning(){
 	echo "###################################################################"
 	echo "I will check some necessary softwares for your linux in default."
 	default_install
+	echo "###################################################################"
 	echo "Now, You can input following options:"
 	echo "update : I will backup and change your apt_source_list to aliyun."
 	echo "docker_proxy : You can input your proxy's port(i.e. clash for windows is 7890) to let your docker connect with vpn."
