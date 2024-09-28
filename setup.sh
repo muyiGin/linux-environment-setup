@@ -35,7 +35,7 @@ action(){
 		eval "./bootstrap.sh"
 		eval "./configure"
 		eval "make"
-		eval "sudo make install"
+		eval "make install"
 		eval "make check"
 	elif [[ "$name" == "glibc-all-in-one" ]];then
 		cd ~/Glibc/glibc-all-in-one
@@ -69,8 +69,8 @@ git_install(){
     fi
 }
 change_apt_source(){
-	sudo cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
-	sudo cp "$Working_Directory/sources.list" "/etc/apt/sources.list"
+	cp "/etc/apt/sources.list" "/etc/apt/sources.list.bak"
+	cp "$Working_Directory/sources.list" "/etc/apt/sources.list"
 }
 ####################Commands######################
 change_apt_source
