@@ -60,7 +60,7 @@ cd_mkdir(){
 		mkdir -p "$dir_name"
 		echo "--->$dir_name has been established."
 	fi
-	echo "--->Now cd $dirname"
+	echo "--->Now cd $dir_name"
 	cd "$dir_name" || { echo "Failed to change directory."; exit 1; }
 }
 git_install(){
